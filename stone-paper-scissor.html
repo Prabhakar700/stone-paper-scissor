@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stone Paper Scissors Game</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #f8f9fa, #e0e0e0);
+            padding: 20px;
+            user-select: none;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            width: auto;
+            border: 2px solid #444;
+            border-radius: 15px;
+            margin: 30px auto;
+            background-color: #fff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.5s ease;
+        }
+
+        .computer,
+        .user {
+            height: 100px;
+            margin: 0 30px;
+        }
+
+        .shake {
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            50% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        button {
+            border: none;
+            background: #ddd;
+            cursor: pointer;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            transition: transform 0.2s ease, background 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            background: #cdeffd;
+        }
+
+        button img {
+            width: 100px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #222;
+        }
+
+        h2 {
+            margin: 10px 0 0;
+        }
+
+        h3 {
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .result-text {
+            font-size: 1.5em;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .winner {
+            background-color: #d4edda !important;
+        }
+
+        .loser {
+            background-color: #f8d7da !important;
+        }
+
+        .draw {
+            background-color: #fff3cd !important;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Stone Paper Scissors</h1>
+    <h3>Select your choice to play against the computer!</h3>
+
+    <button onclick="playgame('stone.webp')">
+        <img src="stone.webp" />
+        <p>stone</p>
+    </button>
+    <button onclick="playgame('paper.jpeg')">
+        <img src="paper.jpeg" />
+        <p>paper</p>
+    </button>
+    <button onclick="playgame('scissor.png')">
+        <img src="scissor.png" />
+        <p>scissor</p>
+    </button>
+
+    <div class="container">
+        <div>
+            <img class="user" id="user" />
+            <h2>Your Choice</h2>
+        </div>
+        <h1 style="margin: 15px;">VS</h1>
+        <div>
+            <img class="computer" id="computer" />
+            <h2>Computer</h2>
+        </div>
+    </div>
+
+    <div id="checkwin"></div>
+
+    <button onclick="location.reload()">Restart</button>
+
+    
+           <script>
+    let computer = document.getElementById("computer");
+    let usera = document.getElementById("user");
+    let checkwin = document.getElementById("checkwin");
+
+    function playgame(userImage) {
+        // Set user image
+        usera.src = userImage;
+
+        // Extract user's choice from image filename
+        let userChoice = userImage.split('.')[0]; // "stone.webp" -> "stone"
+
+        // Randomly select computer's choice
+        let choices = ['stone', 'paper', 'scissor'];
+        let comChoice = choices[Math.floor(Math.random() * choices.length)];
+
+        // Set computer image
+        if (comChoice === "paper") {
+            computer.src = "paper.jpeg";
+        } else if (comChoice === "scissor") {
+            computer.src = "scissor.png";
+        } else {
+            computer.src = "stone.webp";
+        }
+
+        // Determine the result
+        let result = '';
+        if (userChoice === comChoice) {
+            result = "It's a draw!";
+        } else if (
+            (userChoice === 'stone' && comChoice === 'scissor') ||
+            (userChoice === 'scissor' && comChoice === 'paper') ||
+            (userChoice === 'paper' && comChoice === 'stone')
+        ) {
+            result = "You win!";
+        } else {
+            result = "Computer wins!";
+        }
+
+        // Display result
+        checkwin.innerHTML = `<div class="result-text">${result}</div>`;
+    }
+</script>
+
+</body>
+
+</html>
